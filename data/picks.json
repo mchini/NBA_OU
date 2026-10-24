@@ -1,0 +1,856 @@
+{
+  "season": "2026-27",
+  "startYear": 2026,
+  "games": 82,
+  "timezone": "Europe/Berlin",
+  "players": [
+    "Met",
+    "Sasso",
+    "Zach",
+    "Bill",
+    "House"
+  ],
+  "linesNote": "Linee Vegas dal file originale (Paddy Power, 23/09/2026): non sono quote in tempo reale.",
+  "teams": [
+    {
+      "id": "OKC",
+      "name": "Oklahoma City Thunder",
+      "conference": "West",
+      "line": 61.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": false
+        },
+        "Bill": {
+          "side": "O",
+          "lock": true
+        },
+        "Zach": {
+          "side": "O",
+          "lock": false
+        },
+        "House": {
+          "side": "O",
+          "lock": true
+        }
+      }
+    },
+    {
+      "id": "SAS",
+      "name": "San Antonio Spurs",
+      "conference": "West",
+      "line": 60.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": false
+        },
+        "Bill": {
+          "side": "O",
+          "lock": false
+        },
+        "Zach": {
+          "side": "O",
+          "lock": false
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "NYK",
+      "name": "New York Knicks",
+      "conference": "East",
+      "line": 51.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": false
+        },
+        "Bill": {
+          "side": "U",
+          "lock": false
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "U",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "BOS",
+      "name": "Boston Celtics",
+      "conference": "East",
+      "line": 50.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": true
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": false
+        },
+        "Bill": {
+          "side": "O",
+          "lock": true
+        },
+        "Zach": {
+          "side": "O",
+          "lock": false
+        },
+        "House": {
+          "side": "O",
+          "lock": true
+        }
+      }
+    },
+    {
+      "id": "PHI",
+      "name": "Philadelphia 76ers",
+      "conference": "East",
+      "line": 50.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": false
+        },
+        "Bill": {
+          "side": "U",
+          "lock": false
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "CLE",
+      "name": "Cleveland Cavaliers",
+      "conference": "East",
+      "line": 48.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": true
+        },
+        "Bill": {
+          "side": "O",
+          "lock": false
+        },
+        "Zach": {
+          "side": "O",
+          "lock": true
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "DET",
+      "name": "Detroit Pistons",
+      "conference": "East",
+      "line": 48.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": true
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": false
+        },
+        "Bill": {
+          "side": "U",
+          "lock": false
+        },
+        "Zach": {
+          "side": "O",
+          "lock": true
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "DEN",
+      "name": "Denver Nuggets",
+      "conference": "West",
+      "line": 47.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": true
+        },
+        "Bill": {
+          "side": "O",
+          "lock": false
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "MIN",
+      "name": "Minnesota Timberwolves",
+      "conference": "West",
+      "line": 47.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": false
+        },
+        "Bill": {
+          "side": "O",
+          "lock": false
+        },
+        "Zach": {
+          "side": "O",
+          "lock": false
+        },
+        "House": {
+          "side": "U",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "HOU",
+      "name": "Houston Rockets",
+      "conference": "West",
+      "line": 46.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": true
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": true
+        },
+        "Bill": {
+          "side": "O",
+          "lock": true
+        },
+        "Zach": {
+          "side": "O",
+          "lock": true
+        },
+        "House": {
+          "side": "O",
+          "lock": true
+        }
+      }
+    },
+    {
+      "id": "TOR",
+      "name": "Toronto Raptors",
+      "conference": "East",
+      "line": 46.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": true
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": true
+        },
+        "Bill": {
+          "side": "O",
+          "lock": false
+        },
+        "Zach": {
+          "side": "O",
+          "lock": false
+        },
+        "House": {
+          "side": "U",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "LAL",
+      "name": "Los Angeles Lakers",
+      "conference": "West",
+      "line": 44.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": true
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": true
+        },
+        "Bill": {
+          "side": "O",
+          "lock": false
+        },
+        "Zach": {
+          "side": "O",
+          "lock": true
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "MIA",
+      "name": "Miami Heat",
+      "conference": "East",
+      "line": 44.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": true
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": false
+        },
+        "Bill": {
+          "side": "O",
+          "lock": true
+        },
+        "Zach": {
+          "side": "O",
+          "lock": true
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "ORL",
+      "name": "Orlando Magic",
+      "conference": "East",
+      "line": 44.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": false
+        },
+        "Bill": {
+          "side": "O",
+          "lock": false
+        },
+        "Zach": {
+          "side": "O",
+          "lock": false
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "ATL",
+      "name": "Atlanta Hawks",
+      "conference": "East",
+      "line": 43.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": false
+        },
+        "Bill": {
+          "side": "U",
+          "lock": false
+        },
+        "Zach": {
+          "side": "U",
+          "lock": true
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "IND",
+      "name": "Indiana Pacers",
+      "conference": "East",
+      "line": 43.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": false
+        },
+        "Bill": {
+          "side": "O",
+          "lock": true
+        },
+        "Zach": {
+          "side": "O",
+          "lock": false
+        },
+        "House": {
+          "side": "O",
+          "lock": true
+        }
+      }
+    },
+    {
+      "id": "POR",
+      "name": "Portland Trail Blazers",
+      "conference": "West",
+      "line": 41.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": false
+        },
+        "Bill": {
+          "side": "U",
+          "lock": false
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "U",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "PHX",
+      "name": "Phoenix Suns",
+      "conference": "West",
+      "line": 39.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": true
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": false
+        },
+        "Bill": {
+          "side": "U",
+          "lock": false
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "GSW",
+      "name": "Golden State Warriors",
+      "conference": "West",
+      "line": 38.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": true
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": true
+        },
+        "Bill": {
+          "side": "U",
+          "lock": true
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "U",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "CHA",
+      "name": "Charlotte Hornets",
+      "conference": "East",
+      "line": 38.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": true
+        },
+        "Bill": {
+          "side": "O",
+          "lock": false
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "U",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "UTA",
+      "name": "Utah Jazz",
+      "conference": "West",
+      "line": 37.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": false
+        },
+        "Bill": {
+          "side": "U",
+          "lock": false
+        },
+        "Zach": {
+          "side": "O",
+          "lock": false
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "WAS",
+      "name": "Washington Wizards",
+      "conference": "East",
+      "line": 33.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": false
+        },
+        "Bill": {
+          "side": "U",
+          "lock": true
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "DAL",
+      "name": "Dallas Mavericks",
+      "conference": "West",
+      "line": 33.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": false
+        },
+        "Bill": {
+          "side": "O",
+          "lock": false
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "LAC",
+      "name": "Los Angeles Clippers",
+      "conference": "West",
+      "line": 29.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": true
+        },
+        "Bill": {
+          "side": "U",
+          "lock": false
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "U",
+          "lock": true
+        }
+      }
+    },
+    {
+      "id": "MEM",
+      "name": "Memphis Grizzlies",
+      "conference": "West",
+      "line": 29.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": true
+        },
+        "Sasso": {
+          "side": "O",
+          "lock": false
+        },
+        "Bill": {
+          "side": "O",
+          "lock": false
+        },
+        "Zach": {
+          "side": "O",
+          "lock": false
+        },
+        "House": {
+          "side": "O",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "CHI",
+      "name": "Chicago Bulls",
+      "conference": "East",
+      "line": 29.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": true
+        },
+        "Bill": {
+          "side": "U",
+          "lock": false
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "U",
+          "lock": true
+        }
+      }
+    },
+    {
+      "id": "NOP",
+      "name": "New Orleans Pelicans",
+      "conference": "West",
+      "line": 28.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": true
+        },
+        "Bill": {
+          "side": "U",
+          "lock": false
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "U",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "MIL",
+      "name": "Milwaukee Bucks",
+      "conference": "East",
+      "line": 26.5,
+      "picks": {
+        "Met": {
+          "side": "U",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": false
+        },
+        "Bill": {
+          "side": "U",
+          "lock": false
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "U",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "BKN",
+      "name": "Brooklyn Nets",
+      "conference": "East",
+      "line": 24.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": false
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": false
+        },
+        "Bill": {
+          "side": "U",
+          "lock": false
+        },
+        "Zach": {
+          "side": "U",
+          "lock": false
+        },
+        "House": {
+          "side": "U",
+          "lock": false
+        }
+      }
+    },
+    {
+      "id": "SAC",
+      "name": "Sacramento Kings",
+      "conference": "West",
+      "line": 20.5,
+      "picks": {
+        "Met": {
+          "side": "O",
+          "lock": true
+        },
+        "Sasso": {
+          "side": "U",
+          "lock": false
+        },
+        "Bill": {
+          "side": "O",
+          "lock": false
+        },
+        "Zach": {
+          "side": "O",
+          "lock": false
+        },
+        "House": {
+          "side": "U",
+          "lock": false
+        }
+      }
+    }
+  ]
+}
