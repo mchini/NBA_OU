@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+node_modules/
+.venv/
+.DS_Store
+Thumbs.db
+*.tmp
+.qa/
+_site/
+NBA-OU-GitHub.zip
+

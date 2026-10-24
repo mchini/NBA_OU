@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5f0">
+  <meta name="description" content="Met, Sasso, Zach, Bill e House: cinque serie di pronostici NBA, una proiezione su 82 partite. Record e locks aggiornati ogni giorno.">
+  <title>O/U Club — NBA 2026–27</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./assets/style.css?v=1">
+  <script type="module" src="./assets/app.mjs?v=1"></script>
+</head>
+<body>
+  <a class="skip" href="#squadre">Vai ai dati</a>
+  <header class="site-header wrap">
+    <a class="brand" href="./" aria-label="O/U Club, home">
+      <svg viewBox="0 0 36 36" width="34" height="34" aria-hidden="true"><circle cx="18" cy="18" r="16" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 18h32M18 2v32M7 6c13 6 13 18 0 24M29 6c-13 6-13 18 0 24" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>
+      <span>O/U <b>CLUB</b></span>
+    </a>
+    <nav aria-label="Navigazione"><a href="#squadre">Squadre</a><a href="#sfida">La sfida</a><a href="#metodo">Il metodo <span aria-hidden="true">↗</span></a></nav>
+  </header>
+  <main class="wrap">
+    <section class="hero" aria-labelledby="page-title">
+      <div>
+        <p class="eyebrow"><span class="tiny-ball" aria-hidden="true"></span> NBA <span id="season">2026–27</span> <span class="eyebrow-separator">/</span> REGULAR SEASON</p>
+        <h1 id="page-title">Ottantadue partite.<br><span>Cinque opinioni.</span></h1>
+        <p class="hero-description">I nostri Over/Under, alla prova del parquet.<br>Una proiezione lineare. Nessuna sfera di cristallo.</p>
+      </div>
+      <aside class="season-status" aria-label="Stato della stagione">
+        <span class="eyebrow">LA STAGIONE, FIN QUI</span>
+        <p class="games-counter"><strong id="games-played">—</strong><span>/ 1.230 partite</span></p>
+        <div class="progress-track" role="progressbar" aria-label="Partite concluse nella stagione" aria-valuemin="0" aria-valuemax="1230" aria-valuenow="0" id="season-progress"><span></span></div>
+        <p id="update-status" class="update-status" aria-live="polite">Caricamento dei record…</p>
+        <span class="schedule-note">Aggiornamento giornaliero · ore 08:00</span>
+      </aside>
+    </section>
+
+    <div id="notice" class="notice" role="status" hidden></div>
+    <div id="error" class="error" role="alert" hidden></div>
+    <noscript><p class="error">Attiva JavaScript per visualizzare pronostici e grafici.</p></noscript>
+
+    <section aria-label="Classifica dei partecipanti" class="leaderboard" id="leaderboard"></section>
+
+    <section class="data-section" id="squadre" aria-labelledby="teams-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">01 / IL TABELLONE</p><h2 id="teams-title">Tutti i pronostici. Un colpo d’occhio.</h2></div>
+        <span class="section-note" id="team-count">30 squadre · 150 pronostici</span>
+      </div>
+      <div class="table-toolbar">
+        <div class="segmented" role="group" aria-label="Filtra per conference">
+          <button type="button" class="active" data-conference="all" aria-pressed="true">Tutte</button>
+          <button type="button" data-conference="East" aria-pressed="false">East</button>
+          <button type="button" data-conference="West" aria-pressed="false">West</button>
+        </div>
+        <div class="table-options">
+          <label class="search"><svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="5"/><path d="m12 12 5 5"/></svg><input type="search" id="search" placeholder="Cerca squadra" aria-label="Cerca squadra"></label>
+          <label class="lock-filter"><input type="checkbox" id="locks-only"><span>Solo locks</span></label>
+          <button type="button" class="quiet-button" id="reset-filters" hidden>Reset</button>
+        </div>
+      </div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Tabella pronostici, scorri orizzontalmente su schermi piccoli">
+        <table id="picks-table">
+          <caption class="sr-only">Record NBA, proiezioni su 82 partite e margine di ogni pronostico. Valori positivi indicano pronostici attualmente corretti. Clicca sulle intestazioni per ordinare.</caption>
+          <thead id="table-head"></thead><tbody id="table-body"></tbody>
+        </table>
+        <p id="no-results" class="empty-state" hidden>Nessuna squadra corrisponde ai filtri.</p>
+      </div>
+      <div class="table-footnote">
+        <span><span class="lock-symbol" aria-hidden="true">◆</span> Lock <span class="footnote-divider">/</span> O = Over · U = Under</span>
+        <div class="color-key"><span>Sbagliato</span><span class="gradient-key" aria-hidden="true"></span><span>Giusto</span><span class="key-cap">±20 vittorie</span></div>
+      </div>
+      <p class="small-note">Il numero in ogni cella è il margine rispetto alla linea, dal punto di vista di chi ha scelto. +10 = pronostico avanti di 10 vittorie. I colori saturano a ±20; i numeri restano esatti.</p>
+    </section>
+
+    <section class="charts-section" id="sfida" aria-labelledby="challenge-title">
+      <div class="section-heading"><div><p class="eyebrow">02 / LA SFIDA</p><h2 id="challenge-title">Chi sta leggendo meglio la stagione?</h2></div><span class="section-note">Esiti sulla proiezione di oggi</span></div>
+      <div class="chart-grid">
+        <article class="panel"><div class="panel-heading"><div><h3>Il quadro completo</h3><p>Tutti e 30 i pronostici, per ciascuno.</p></div><span class="panel-number">30</span></div><div class="bar-chart" id="all-chart"></div><div class="chart-legend"><span><i class="positive-dot"></i>Giusti</span><span><i class="negative-dot"></i>Sbagliati</span><span><i class="neutral-dot"></i>Pari / N.D.</span></div></article>
+        <article class="panel"><div class="panel-heading"><div><h3>La zona locks <span class="lock-symbol" aria-hidden="true">◆</span></h3><p>Le scelte su cui ci abbiamo messo la faccia.</p></div><span class="panel-number">◆</span></div><div class="bar-chart" id="locks-chart"></div><p class="chart-note">Barre in percentuale: ognuno ha un numero diverso di locks. Pari e N.D. esclusi dalla % di successo.</p></article>
+      </div>
+      <article class="panel history-panel">
+        <div class="panel-heading"><div><h3>La lunga stagione</h3><p>Percentuale di pronostici giusti, giorno dopo giorno.</p></div><div class="segmented" role="group" aria-label="Tipo di storico"><button type="button" data-history="all" class="active" aria-pressed="true">Tutti</button><button type="button" data-history="locks" aria-pressed="false">Locks</button></div></div>
+        <div id="history-legend" class="people-legend"></div>
+        <div id="history-chart" class="history-chart"></div>
+        <p id="history-note" class="chart-note"></p>
+      </article>
+      <div class="chart-grid extras-grid">
+        <article class="panel"><div class="panel-heading"><div><h3>Compagni di pronostici</h3><p>Quante volte scegliamo lo stesso lato della linea?</p></div></div><div id="agreement-chart"></div><p class="chart-note">Accordo sui 30 pronostici. Il colore non indica chi ha ragione.</p></article>
+        <article class="panel"><div class="panel-heading"><div><h3>Contro il resto del tavolo</h3><p>Un pronostico solitario contro gli altri quattro.</p></div></div><div id="contrarian-chart" class="contrarian-list"></div><p class="chart-note">Margine positivo = per ora la scelta solitaria ha ragione.</p></article>
+      </div>
+    </section>
+
+    <section class="method" id="metodo" aria-labelledby="method-title">
+      <div><p class="eyebrow">03 / NIENTE MAGIA</p><h2 id="method-title">Solo una proporzione.</h2><p>Stesso ritmo di vittorie, fino a fine regular season. Tutto qui.</p></div>
+      <div class="method-details">
+        <p class="formula">Vittorie proiettate <span>=</span> <strong>82 × V / (V + S)</strong></p>
+        <details><summary>Come leggere i numeri e da dove arrivano</summary><div class="method-copy">
+          <p>Per un Over: margine = vittorie proiettate − linea Vegas. Per un Under: margine = linea Vegas − vittorie proiettate. Un margine positivo conta come giusto, uno negativo come sbagliato. A zero il pronostico è pari; senza partite giocate è N.D. I conteggi usano valori non arrotondati, mentre la tabella mostra un decimale.</p>
+          <p>I record nei grafici sono provvisori e basati sulla proiezione, anche quando una squadra ha giocato pochissimo. Il simbolo ✓ accanto alla scelta indica invece un esito già matematicamente certo. I locks contano come un singolo pronostico, senza moltiplicatori.</p>
+          <p id="lines-note"></p>
+          <p>I record sono estratti dalla classifica di regular season su <a id="source-link" href="https://en.wikipedia.org/wiki/2026%E2%80%9327_NBA_season" target="_blank" rel="noopener">Wikipedia</a>, aggiornata dalla comunità e potenzialmente in ritardo rispetto alle partite. Non includono preseason, play-in, playoff o la finale della NBA Cup. I dati vengono prelevati ogni giorno alle 08:00, fuso Europe/Berlin, con ora legale automatica. GitHub può ritardare le esecuzioni. Se un prelievo fallisce, conserviamo l’ultimo snapshot valido; oltre 36 ore mostriamo un avviso.</p>
+          <p>Attribuzione: autori della pagina Wikipedia sulla stagione NBA, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Dati estratti e trasformati in proiezioni. <a href="./data/history.json" download>Scarica dati e storico JSON ↗</a></p>
+          <p>Lo storico registra uno snapshot per giorno dal primo prelievo; non ricostruiamo giornate precedenti. I grafici rimangono riferiti a tutte le squadre anche quando filtri la tabella.</p>
+        </div></details>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer wrap"><span>O/U CLUB <span class="footer-dash">—</span> NBA <span id="footer-season">2026–27</span></span><span>Met · Sasso · Zach · Bill · House</span><a href="#page-title">Torna su ↑</a></footer>
+</body>
+</html>
