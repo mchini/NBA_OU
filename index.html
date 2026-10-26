@@ -31,7 +31,7 @@
         <p class="games-counter"><strong id="games-played">—</strong><span>/ 1.230 partite</span></p>
         <div class="progress-track" role="progressbar" aria-label="Partite concluse nella stagione" aria-valuemin="0" aria-valuemax="1230" aria-valuenow="0" id="season-progress"><span></span></div>
         <p id="update-status" class="update-status" aria-live="polite">Caricamento dei record…</p>
-        <span class="schedule-note">Aggiornamento giornaliero · ore 08:00</span>
+        <span class="schedule-note">Ogni mattina · recupero automatico</span>
       </aside>
     </section>
 
@@ -98,7 +98,7 @@
           <p>Per un Over: margine = vittorie proiettate − linea Vegas. Per un Under: margine = linea Vegas − vittorie proiettate. Un margine positivo conta come giusto, uno negativo come sbagliato. A zero il pronostico è pari; senza partite giocate è N.D. I conteggi usano valori non arrotondati, mentre la tabella mostra un decimale.</p>
           <p>I record nei grafici sono provvisori e basati sulla proiezione, anche quando una squadra ha giocato pochissimo. Il simbolo ✓ accanto alla scelta indica invece un esito già matematicamente certo. I locks contano come un singolo pronostico, senza moltiplicatori.</p>
           <p id="lines-note"></p>
-          <p>I record sono estratti dalla classifica di regular season su <a id="source-link" href="https://en.wikipedia.org/wiki/2026%E2%80%9327_NBA_season" target="_blank" rel="noopener">Wikipedia</a>, aggiornata dalla comunità e potenzialmente in ritardo rispetto alle partite. Non includono preseason, play-in, playoff o la finale della NBA Cup. I dati vengono prelevati ogni giorno alle 08:00, fuso Europe/Berlin, con ora legale automatica. GitHub può ritardare le esecuzioni. Se un prelievo fallisce, conserviamo l’ultimo snapshot valido; oltre 36 ore mostriamo un avviso.</p>
+          <p>I record sono estratti dalla classifica di regular season su <a id="source-link" href="https://en.wikipedia.org/wiki/2026%E2%80%9327_NBA_season" target="_blank" rel="noopener">Wikipedia</a>, aggiornata dalla comunità e potenzialmente in ritardo rispetto alle partite. Non includono preseason, play-in, playoff o la finale della NBA Cup. Il primo tentativo giornaliero avviene dalle 09:00, fuso Europe/Berlin, lasciando margine alla normale finestra delle partite notturne; non è una verifica in tempo reale del fischio finale. Se un avvio salta, il download fallisce o la pubblicazione non riesce, i trigger successivi recuperano automaticamente. Dopo una pubblicazione riuscita, gli altri prelievi del giorno vengono saltati. GitHub può ritardare i trigger. Conserviamo sempre l’ultimo snapshot valido; oltre 36 ore mostriamo un avviso.</p>
           <p>Attribuzione: autori della pagina Wikipedia sulla stagione NBA, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Dati estratti e trasformati in proiezioni. <a href="./data/history.json" download>Scarica dati e storico JSON ↗</a></p>
           <p>Lo storico registra uno snapshot per giorno dal primo prelievo; non ricostruiamo giornate precedenti. I grafici rimangono riferiti a tutte le squadre anche quando filtri la tabella.</p>
         </div></details>

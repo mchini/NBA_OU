@@ -5,7 +5,9 @@ on:
     branches: [main, master]
   workflow_dispatch:
   schedule:
-    - cron: '0 8 * * *'
+    # Repeated triggers recover missed or failed runs. The gate waits until
+    # 09:00 local and stops further downloads after a successful publication.
+    - cron: '7,37 * * * *'
       timezone: Europe/Berlin
 
 permissions:
@@ -16,61 +18,61 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  prepare:
+  update-and-publish:
     if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
       contents: write
-    outputs:
-      update_failed: ${{ steps.refresh.outcome == 'failure' }}
-    steps:
-      - uses: actions/checkout@v6
-        with:
-          ref: ${{ github.event.repository.default_branch }}
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.12'
-      - name: Importa pronostici e locks dal file Excel
-        run: python scripts/import_picks.py
-      - name: Verifica calcoli e parser
-        run: |
-          python -m unittest discover -s tests -p "test_*.py"
-          node --test tests/model.test.mjs
-      - name: Scarica e valida i record NBA
-        id: refresh
-        continue-on-error: true
-        run: python scripts/update_records.py
-      - name: Conserva lo storico nel repository
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/picks.json data/history.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Aggiorna record NBA e storico giornaliero"
-            git push
-          fi
-      - name: Prepara soltanto i file pubblici del sito
-        run: python scripts/build_static.py
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: _site
-
-  deploy:
-    needs: prepare
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/deploy-pages@v4
-        id: deployment
-      - name: Segnala eventuale errore della fonte
-        if: needs.prepare.outputs.update_failed == 'true'
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - name: Controlla se manca l'aggiornamento di oggi
+        id: gate
+        env:
+          WORKFLOW_EVENT: ${{ github.event_name }}
+        run: python3 scripts/automation_gate.py check --event "$WORKFLOW_EVENT"
+      - uses: actions/setup-python@v6
+        if: steps.gate.outputs.run == 'true'
+        with:
+          python-version: '3.12'
+      - name: Importa pronostici e locks dal file Excel
+        if: steps.gate.outputs.run == 'true'
+        run: python scripts/import_picks.py
+      - name: Verifica calcoli, parser e recupero automatico
+        if: steps.gate.outputs.run == 'true'
         run: |
-          echo "::error::Pubblicati gli ultimi dati validi, ma il prelievo NBA e fallito. Controllare lo step Scarica e valida i record NBA."
-          exit 1
+          python -m unittest discover -s tests -p "test_*.py"
+          node --test tests/model.test.mjs
+      - name: Scarica e valida i record NBA
+        if: steps.gate.outputs.run == 'true'
+        # Any failure leaves the gate open: the next trigger retries by itself.
+        run: python scripts/update_records.py
+      - name: Prepara soltanto i file pubblici del sito
+        if: steps.gate.outputs.run == 'true'
+        run: python scripts/build_static.py
+      - uses: actions/upload-pages-artifact@v4
+        if: steps.gate.outputs.run == 'true'
+        with:
+          path: _site
+
+      - uses: actions/deploy-pages@v4
+        if: steps.gate.outputs.run == 'true'
+        id: deployment
+      - name: Conferma il successo soltanto dopo la pubblicazione
+        if: steps.gate.outputs.run == 'true'
+        run: |
+          python scripts/automation_gate.py complete
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/picks.json data/history.json .github/update-state.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Aggiorna record NBA e conferma pubblicazione giornaliera"
+            git push
+          fi
