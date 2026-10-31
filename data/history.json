@@ -945,6 +945,141 @@
           "losses": 4
         }
       }
+    },
+    {
+      "season": "2026-27",
+      "date": "2026-10-31",
+      "updatedAt": "2026-10-31T13:30:02+00:00",
+      "source": {
+        "name": "Wikipedia · autori della pagina NBA 2026-27",
+        "url": "https://en.wikipedia.org/wiki/2026%E2%80%9327_NBA_season",
+        "revision": 1382996844,
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "note": "Record estratti dalle classifiche di regular season; proiezioni elaborate da questo sito. La fonte e aggiornata dalla comunita."
+      },
+      "records": {
+        "PHI": {
+          "wins": 5,
+          "losses": 1
+        },
+        "BOS": {
+          "wins": 4,
+          "losses": 1
+        },
+        "TOR": {
+          "wins": 3,
+          "losses": 2
+        },
+        "NYK": {
+          "wins": 2,
+          "losses": 4
+        },
+        "BKN": {
+          "wins": 0,
+          "losses": 5
+        },
+        "DET": {
+          "wins": 5,
+          "losses": 1
+        },
+        "CLE": {
+          "wins": 3,
+          "losses": 2
+        },
+        "IND": {
+          "wins": 2,
+          "losses": 4
+        },
+        "MIL": {
+          "wins": 1,
+          "losses": 4
+        },
+        "CHI": {
+          "wins": 1,
+          "losses": 5
+        },
+        "ATL": {
+          "wins": 3,
+          "losses": 3
+        },
+        "CHA": {
+          "wins": 3,
+          "losses": 3
+        },
+        "WAS": {
+          "wins": 3,
+          "losses": 3
+        },
+        "ORL": {
+          "wins": 2,
+          "losses": 3
+        },
+        "MIA": {
+          "wins": 2,
+          "losses": 4
+        },
+        "OKC": {
+          "wins": 4,
+          "losses": 1
+        },
+        "POR": {
+          "wins": 3,
+          "losses": 1
+        },
+        "MIN": {
+          "wins": 4,
+          "losses": 2
+        },
+        "DEN": {
+          "wins": 3,
+          "losses": 2
+        },
+        "UTA": {
+          "wins": 1,
+          "losses": 4
+        },
+        "LAL": {
+          "wins": 4,
+          "losses": 2
+        },
+        "GSW": {
+          "wins": 3,
+          "losses": 3
+        },
+        "PHX": {
+          "wins": 1,
+          "losses": 3
+        },
+        "LAC": {
+          "wins": 1,
+          "losses": 4
+        },
+        "SAC": {
+          "wins": 0,
+          "losses": 5
+        },
+        "MEM": {
+          "wins": 5,
+          "losses": 0
+        },
+        "HOU": {
+          "wins": 5,
+          "losses": 1
+        },
+        "DAL": {
+          "wins": 4,
+          "losses": 2
+        },
+        "SAS": {
+          "wins": 3,
+          "losses": 2
+        },
+        "NOP": {
+          "wins": 1,
+          "losses": 4
+        }
+      }
     }
   ]
 }
