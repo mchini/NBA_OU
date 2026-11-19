@@ -21,6 +21,10 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 LICENSE = "https://creativecommons.org/licenses/by-sa/4.0/"
+# Wikipedia keeps East and West in two templates edited separately, and an editor
+# slip can leave the totals off by a game for a whole day (e.g. 2026-11-16:
+# 193 wins vs 194 losses). Such a page is still far better than no update at all.
+MAX_UNBALANCED = 3
 
 
 class StandingsTables(HTMLParser):
@@ -65,7 +69,12 @@ def normalized(value):
     return re.sub(r"\s+", " ", value).strip()
 
 
-def validate_records(records, config):
+def unbalance(records):
+    """Total wins minus total losses: zero when every game is recorded on both sides."""
+    return sum(r["wins"] for r in records.values()) - sum(r["losses"] for r in records.values())
+
+
+def validate_records(records, config, max_unbalanced=0):
     expected = {team["id"] for team in config["teams"]}
     if set(records) != expected:
         missing = ", ".join(sorted(expected - set(records)))
@@ -74,9 +83,9 @@ def validate_records(records, config):
         wins, losses = record.get("wins"), record.get("losses")
         if type(wins) is not int or type(losses) is not int or min(wins, losses) < 0 or wins + losses > config["games"]:
             raise ValueError(f"Record non valido per {code}: {record}")
-    wins = sum(record["wins"] for record in records.values())
-    losses = sum(record["losses"] for record in records.values())
-    if wins != losses:
+    if abs(unbalance(records)) > max_unbalanced:
+        wins = sum(record["wins"] for record in records.values())
+        losses = sum(record["losses"] for record in records.values())
         raise ValueError(f"La classifica non quadra: {wins} vittorie, {losses} sconfitte. Riprova piu tardi.")
 
 
@@ -107,7 +116,7 @@ def parse_standings(html, config):
             if code in records and records[code] != record:
                 raise ValueError(f"Record discordanti fra le tabelle per {code}")
             records[code] = record
-    validate_records(records, config)
+    validate_records(records, config, MAX_UNBALANCED)
     return records
 
 
@@ -130,6 +139,10 @@ def fetch_standings(config):
             with urlopen(request, timeout=45) as response:
                 payload = json.load(response)
             if "error" in payload:
+                if payload["error"].get("code") == "maxlag" and attempt < 2:
+                    # Wikipedia's replicas are lagging: back off and ask again, as requested by the API.
+                    time.sleep(10 * (attempt + 1))
+                    continue
                 raise ValueError("Wikimedia API: " + json.dumps(payload["error"], ensure_ascii=False))
             parsed = payload["parse"]
             if parsed.get("title", "").replace("_", " ") != title:
@@ -168,7 +181,7 @@ def fetch_standings(config):
 
 
 def snapshot(config, records, source, now=None):
-    validate_records(records, config)
+    validate_records(records, config, MAX_UNBALANCED)
     now = now or datetime.now(timezone.utc)
     return {
         "season": config["season"], "date": now.astimezone(ZoneInfo(config["timezone"])).date().isoformat(),
@@ -197,13 +210,35 @@ def atomic_json(path, data):
             os.unlink(temporary)
 
 
+def checked_snapshot(config, text):
+    """Validate a snapshot handed over by the download job of the workflow."""
+    current = json.loads(text)
+    if current.get("season") != config["season"]:
+        raise ValueError("Lo snapshot ricevuto e di una stagione diversa")
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(current.get("date"))):
+        raise ValueError("Data dello snapshot non valida")
+    datetime.fromisoformat(current["updatedAt"])
+    if not str(current.get("source", {}).get("url", "")).startswith("https://en.wikipedia.org/"):
+        raise ValueError("Fonte dello snapshot non valida")
+    validate_records(current["records"], config, MAX_UNBALANCED)
+    return current
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, default=ROOT / "data")
+    parser.add_argument("--snapshot", help="JSON gia scaricato e validato dal workflow (vuoto: nessun dato nuovo)")
     args = parser.parse_args()
     config = json.loads((args.data_dir / "picks.json").read_text(encoding="utf-8"))
-    records, source = fetch_standings(config)
-    current = snapshot(config, records, source)
+    if args.snapshot is not None:
+        if not args.snapshot.strip():
+            print("Nessun nuovo dato da salvare: pubblico lo storico esistente.")
+            return
+        current = checked_snapshot(config, args.snapshot)
+    else:
+        records, source = fetch_standings(config)
+        current = snapshot(config, records, source)
+    records = current["records"]
     history_path = args.data_dir / "history.json"
     history = json.loads(history_path.read_text(encoding="utf-8")) if history_path.exists() else {}
     history = merge_history(history, current)

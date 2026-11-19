@@ -9,7 +9,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from import_picks import extract_picks
-from update_records import parse_standings, validate_records, merge_history, snapshot, main
+from update_records import MAX_UNBALANCED, parse_standings, validate_records, merge_history, snapshot, main
 
 CONFIG = json.loads((ROOT / "data/picks.json").read_text(encoding="utf-8"))
 
@@ -46,6 +46,42 @@ class PipelineTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "non valido"):
             validate_records(records, CONFIG)
 
+    def test_small_wikipedia_slip_is_tolerated_but_not_a_broken_page(self):
+        records = parse_standings(fixture(), CONFIG)
+        records["PHI"]["wins"] += MAX_UNBALANCED
+        validate_records(records, CONFIG, MAX_UNBALANCED)
+        records["PHI"]["wins"] += 1
+        with self.assertRaisesRegex(ValueError, "non quadra"):
+            validate_records(records, CONFIG, MAX_UNBALANCED)
+
+    def run_main(self, folder, *arguments):
+        with patch("sys.argv", ["update_records.py", "--data-dir", folder, *arguments]):
+            main()
+
+    def data_folder(self, folder, history):
+        (Path(folder) / "picks.json").write_text(json.dumps(CONFIG), encoding="utf-8")
+        path = Path(folder) / "history.json"
+        path.write_text(history, encoding="utf-8")
+        return path
+
+    def test_snapshot_from_download_job_is_added_to_history(self):
+        records = parse_standings(fixture(), CONFIG)
+        current = snapshot(CONFIG, records, {"url": "https://en.wikipedia.org/wiki/x"}, datetime(2026, 11, 19, 6, 14, tzinfo=timezone.utc))
+        with tempfile.TemporaryDirectory() as folder:
+            path = self.data_folder(folder, json.dumps({"season": "2026-27", "snapshots": []}))
+            self.run_main(folder, "--snapshot", json.dumps(current))
+            self.assertEqual(json.loads(path.read_text(encoding="utf-8"))["snapshots"], [current])
+
+    def test_empty_or_invalid_snapshot_keeps_history(self):
+        original = '{"season":"2026-27","snapshots":["unchanged"]}'
+        wrong_season = json.dumps({"season": "2025-26", "date": "2026-11-19", "updatedAt": "2026-11-19T06:00:00+00:00", "source": {}, "records": {}})
+        with tempfile.TemporaryDirectory() as folder:
+            path = self.data_folder(folder, original)
+            self.run_main(folder, "--snapshot", "")
+            with self.assertRaisesRegex(ValueError, "stagione"):
+                self.run_main(folder, "--snapshot", wrong_season)
+            self.assertEqual(path.read_text(encoding="utf-8"), original)
+
     def test_same_day_replaces_snapshot_and_preserves_other_days(self):
         history = {"season": "2026-27", "snapshots": [{"date": "2026-10-23", "x": 1}, {"date": "2026-10-24", "x": 2}]}
         current = {"season": "2026-27", "date": "2026-10-24", "x": 3}
@@ -73,7 +109,7 @@ class PipelineTests(unittest.TestCase):
         history = json.loads((ROOT / "data/history.json").read_text(encoding="utf-8"))
         self.assertEqual(history["season"], CONFIG["season"])
         for item in history["snapshots"]:
-            validate_records(item["records"], CONFIG)
+            validate_records(item["records"], CONFIG, MAX_UNBALANCED)
             self.assertTrue(item["source"]["url"].startswith("https://en.wikipedia.org/"))
 
 

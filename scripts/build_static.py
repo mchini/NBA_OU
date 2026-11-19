@@ -3,7 +3,7 @@ import json
 import shutil
 from pathlib import Path
 
-from update_records import ROOT, validate_records
+from update_records import MAX_UNBALANCED, ROOT, validate_records
 
 
 def main():
@@ -15,7 +15,7 @@ def main():
     if dates != sorted(set(dates)):
         raise ValueError("Lo storico deve avere una sola voce per giorno, in ordine")
     for item in history["snapshots"]:
-        validate_records(item["records"], config)
+        validate_records(item["records"], config, MAX_UNBALANCED)
     output = ROOT / "_site"
     for folder in ("assets", "data"):
         (output / folder).mkdir(parents=True, exist_ok=True)

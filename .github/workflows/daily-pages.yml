@@ -5,74 +5,99 @@ on:
     branches: [main, master]
   workflow_dispatch:
   schedule:
-    # Repeated triggers recover missed or failed runs. The gate waits until
-    # 09:00 local and stops further downloads after a successful publication.
+    # GitHub starts only some of these triggers, at irregular hours (in practice
+    # 4-5 per day, often 6-10 hours apart). A run that finds today's update missing
+    # waits for last night's results itself, so one trigger per day is enough.
     - cron: '7,37 * * * *'
-      timezone: Europe/Berlin
 
 permissions:
   contents: read
 
+# Scheduled runs queue behind each other, so only one waits for Wikipedia at a time.
+# Pushes and manual runs get their own group and never wait behind them.
 concurrency:
-  group: nba-ou-pages
+  group: nba-ou-${{ github.event_name == 'schedule' && 'schedule' || github.run_id }}
   cancel-in-progress: false
 
 jobs:
-  update-and-publish:
+  records:
+    name: Scarica i record NBA
     if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # Waiting for the night's results may take up to 5.5 hours (GitHub's limit is 6).
+    timeout-minutes: 350
+    outputs:
+      publish: ${{ steps.records.outputs.publish }}
+      snapshot: ${{ steps.records.outputs.snapshot }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Scarica i record, attendendo quelli della notte se mancano
+        id: records
+        env:
+          WORKFLOW_EVENT: ${{ github.event_name }}
+        run: python scripts/automation_gate.py --event "$WORKFLOW_EVENT"
+
+  publish:
+    name: Pubblica il sito
+    needs: records
+    if: needs.records.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      group: nba-ou-pages
+      cancel-in-progress: false
     permissions:
       contents: write
       pages: write
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment-retry.outputs.page_url }}
     steps:
       - uses: actions/checkout@v6
         with:
           ref: ${{ github.event.repository.default_branch }}
-      - name: Controlla se manca l'aggiornamento di oggi
-        id: gate
-        env:
-          WORKFLOW_EVENT: ${{ github.event_name }}
-        run: python3 scripts/automation_gate.py check --event "$WORKFLOW_EVENT"
       - uses: actions/setup-python@v6
-        if: steps.gate.outputs.run == 'true'
         with:
           python-version: '3.12'
       - name: Importa pronostici e locks dal file Excel
-        if: steps.gate.outputs.run == 'true'
         run: python scripts/import_picks.py
-      - name: Verifica calcoli, parser e recupero automatico
-        if: steps.gate.outputs.run == 'true'
+      - name: Aggiungi i record scaricati allo storico
+        env:
+          SNAPSHOT: ${{ needs.records.outputs.snapshot }}
+        run: python scripts/update_records.py --snapshot "$SNAPSHOT"
+      - name: Verifica calcoli, parser e automazione
         run: |
           python -m unittest discover -s tests -p "test_*.py"
           node --test tests/model.test.mjs
-      - name: Scarica e valida i record NBA
-        if: steps.gate.outputs.run == 'true'
-        # Any failure leaves the gate open: the next trigger retries by itself.
-        run: python scripts/update_records.py
       - name: Prepara soltanto i file pubblici del sito
-        if: steps.gate.outputs.run == 'true'
         run: python scripts/build_static.py
       - uses: actions/upload-pages-artifact@v4
-        if: steps.gate.outputs.run == 'true'
         with:
           path: _site
 
+      # GitHub Pages sometimes answers with a temporary server error (502):
+      # wait two minutes and try once more instead of losing the day's update.
       - uses: actions/deploy-pages@v4
-        if: steps.gate.outputs.run == 'true'
         id: deployment
-      - name: Conferma il successo soltanto dopo la pubblicazione
-        if: steps.gate.outputs.run == 'true'
+        continue-on-error: true
+      - name: Errore temporaneo di GitHub Pages, attendo prima di riprovare
+        if: steps.deployment.outcome == 'failure'
+        run: sleep 120
+      - uses: actions/deploy-pages@v4
+        id: deployment-retry
+        if: steps.deployment.outcome == 'failure'
+
+      - name: Salva lo storico soltanto dopo la pubblicazione
         run: |
-          python scripts/automation_gate.py complete
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/picks.json data/history.json .github/update-state.json
-          if ! git diff --cached --quiet; then
-            git commit -m "Aggiorna record NBA e conferma pubblicazione giornaliera"
-            git push
-          fi
+          git add data/picks.json data/history.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Aggiorna record NBA e storico giornaliero"
+          git push || { git pull --rebase && git push; }
